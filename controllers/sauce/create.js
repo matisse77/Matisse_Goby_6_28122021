@@ -1,6 +1,6 @@
 const Sauce = require('../../models/Sauce');
 
-exports.createSauce = (req, res, next) => {
+module.exports = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   // Remove _id because Mongoose creates an _id field by default
   delete sauceObject._id;

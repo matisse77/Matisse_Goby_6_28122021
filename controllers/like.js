@@ -1,6 +1,6 @@
 const Sauce = require('../models/Sauce');
 
-exports.likeSauce = (req, res, next) => {
+module.exports = (req, res, next) => {
   switch (req.body.like) {
     // Like
     case 1:

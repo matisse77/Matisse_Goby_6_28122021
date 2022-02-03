@@ -1,6 +1,6 @@
 const Sauce = require('../../models/Sauce');
 
-exports.getAllSauce = (req, res, next) => {
+module.exports = (req, res, next) => {
   // find(): Returns an array containing all the sauces present in the database
   Sauce.find()
     .then((sauces) => res.status(200).json(sauces))

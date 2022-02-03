@@ -1,6 +1,6 @@
 const Sauce = require('../../models/Sauce');
 
-exports.modifySauce = (req, res, next) => {
+module.exports = (req, res, next) => {
   const sauceObject = req.file
     ? {
         ...JSON.parse(req.body.sauce),

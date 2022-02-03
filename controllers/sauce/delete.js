@@ -1,7 +1,7 @@
 const Sauce = require('../../models/Sauce');
 const fs = require('fs');
 
-exports.deleteSauce = (req, res, next) => {
+module.exports = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       const filename = sauce.imageUrl.split('/images/')[1];
