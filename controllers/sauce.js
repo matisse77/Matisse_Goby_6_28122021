@@ -3,6 +3,7 @@ const fs = require('fs');
 
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
+  // Remove _id because Mongoose creates an _id field by default
   delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
@@ -59,6 +60,7 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 exports.getAllSauce = (req, res, next) => {
+  // find(): Returns an array containing all the sauces present in the database
   Sauce.find()
     .then((sauces) => res.status(200).json(sauces))
     .catch((error) => res.status(400).json({ error }));
@@ -66,15 +68,22 @@ exports.getAllSauce = (req, res, next) => {
 
 exports.likeSauce = (req, res, next) => {
   switch (req.body.like) {
+    // Like
     case 1:
+      // updateOne(): Update the model with the new values of the specified fields
       Sauce.updateOne(
         { _id: req.params.id },
-        { $addToSet: { usersLiked: req.body.userId }, $inc: { likes: +1 } }
+        {
+          // $addToSet: Increment the userLiked array with the value of the designated element
+          $addToSet: { usersLiked: req.body.userId },
+          // $inc: Create the field and set the field to the specified value
+          $inc: { likes: +1 },
+        }
       )
         .then(() => res.status(200).json({ message: 'like !' }))
         .catch((error) => res.status(400).json({ error }));
       break;
-
+    // Cancel like and dislike
     case 0:
       Sauce.findOne({ _id: req.params.id })
         .then((sauce) => {
@@ -104,7 +113,7 @@ exports.likeSauce = (req, res, next) => {
         })
         .catch((error) => res.status(404).json({ error }));
       break;
-
+    // Dislike
     case -1:
       Sauce.updateOne(
         { _id: req.params.id },

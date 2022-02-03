@@ -1,4 +1,6 @@
+// Allow encryption of the password with the .hash() method
 const bcrypt = require('bcrypt');
+// Allows you to create and verify an authentication token
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
@@ -20,6 +22,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+  // findOne(): finds and returns the document that matches the given selection criteria
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
@@ -33,6 +36,7 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id,
+            //.sign(): Encoding of the new token that contains the user's id as payload
             token: jwt.sign({ userId: user._id }, process.env.AUTH_TOKEN, {
               expiresIn: '24H',
             }),
