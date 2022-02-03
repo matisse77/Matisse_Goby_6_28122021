@@ -6,8 +6,13 @@ const helmet = require('helmet');
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
+require('dotenv').config();
+
 mongoose
-  .connect({ useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.DB_ACCESS, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
